@@ -3,6 +3,7 @@ import React from "react";
 import { styles } from "../css/style";
 
 export default function Header() {
+  const [is_mobile_open, set_is_mobile_open] = React.useState(false);
   const headers = [
     {
       title: "Home",
@@ -22,27 +23,24 @@ export default function Header() {
     },
   ];
   return (
-    <div className="flex justify-between md:px-32 py-4">
-      <ul className="flex space-x-12 items-center">
+    <div className="md:flex justify-between md:px-32 py-4 px-6  bg-red-200 md:bg-green-400">
+      <ul className="md:flex  items-center">
         <li>UNITED UI</li>
-
-        {headers.map((item) => {
-          return (
-            <a className="text-md font-semibold" href={item.to}>
-              {item.title}
-            </a>
-          );
-        })}
+        <li className="md:flex">
+          {headers.map((item) => {
+            return (
+              <div>
+                <a className="text-md font-semibold" href={item.to}>
+                  {item.title}
+                </a>
+              </div>
+            );
+          })}
+        </li>
       </ul>
 
-      <ul className="flex space-x-12">
-        {/* <button style={styles.outlined_button}>
-                Login
-                </button>
-                <button style={styles.filled_button}>
-                Sign up
-                </button> */}
-
+      <ul className="flex space-x-6">
+        <span></span>
         <Button variant="text" sx={styles.text_button}>
           Log in
         </Button>
@@ -50,6 +48,12 @@ export default function Header() {
           Sign up
         </Button>
       </ul>
+
+      <div className="md:hidden">
+        <Button onClick={() => set_is_mobile_open(!is_mobile_open)}>
+          {is_mobile_open ? "Close" : "Open"}
+        </Button>
+      </div>
     </div>
   );
 }

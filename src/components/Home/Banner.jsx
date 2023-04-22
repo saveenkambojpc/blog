@@ -1,7 +1,6 @@
 import { Chip, Typography } from "@mui/material";
 import React from "react";
 import banner from "../../img/banner.jpg";
-import { theme } from "../../misc/theme";
 
 const Banner = () => {
   const tags = [
@@ -25,7 +24,7 @@ const Banner = () => {
           src={banner}
           style={{
             width: "100%",
-            height: "480px",
+            height: "360px",
             objectFit: "cover",
             objectPosition: "top",
           }}
