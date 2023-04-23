@@ -105,12 +105,12 @@ const Footer = () => {
           {footers.map((item) => {
             return (
               <div className="mt-6 md:mt-0 flex flex-col items-center">
-                <Typography textTransform={"uppercase"} fontSize={14}>
+                <Typography textTransform={"uppercase"} fontSize={16}>
                   {item.heading}
                 </Typography>
                 <ul className="space-y-2 mt-3">
                   {item.sub.map((e) => {
-                    return <Typography  fontSize={12}>{e.name}</Typography>
+                    return <Typography  fontSize={14}>{e.name}</Typography>
                   })}
                 </ul>
               </div>

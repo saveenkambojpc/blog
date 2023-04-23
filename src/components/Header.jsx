@@ -24,6 +24,10 @@ export default function Header() {
       title: "Pricing",
       to: "/pricing",
     },
+    {
+      title: "Admin",
+      to: "/admin",
+    },
   ];
   return (
     <header className="lg:px-32  px-6 w-full">
