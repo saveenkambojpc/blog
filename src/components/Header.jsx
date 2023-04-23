@@ -21,6 +21,10 @@ export default function Header() {
       title: "Pricing",
       to: "/pricing",
     },
+    {
+      title: "Admin",
+      to: "/admin",
+    },
   ];
   return (
     <div className="md:flex justify-between md:px-32 py-4 px-6  bg-red-200 md:bg-green-400">
