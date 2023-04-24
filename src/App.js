@@ -1,5 +1,5 @@
 import React from "react";
-import { writeData } from "./api";
+import { readData, writeData } from "./api";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -8,15 +8,21 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Layout from "./components/Layout";
+import Admin from "./pages/Admin";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Layout><Home /></Layout>,
   },
   {
     path: "/admin",
-    element: <div>admin</div>
+    element: <>
+
+      <Header />
+      <Admin />
+    </>
   }
 ]);
 
@@ -24,29 +30,15 @@ const router = createBrowserRouter([
 export default function App() {
 
   React.useEffect(() => {
-    writeData('blog', 123, { name: "Heropanti" })
+    readData("blog")
   }, [])
 
 
   return (
-    <>
-      <Header />
-      <div className=" lg:px-32 mb-6 px-6 ">
-        <RouterProvider router={router} />
-      </div>
-      <Footer />
-    </>
+    <RouterProvider router={router} />
   );
 }
 
 
-{/* <div>
-<Header />
-<div className=" lg:px-32 mb-6 px-6 ">
 
-  <Home />
-</div>
-
-<Footer />
-</div> */}
 
