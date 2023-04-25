@@ -104,13 +104,20 @@ const Footer = () => {
         <div className=" md:mt-12 mt-6 md:flex md:justify-between ">
           {footers.map((item) => {
             return (
-              <div className="mt-6 md:mt-0 flex flex-col items-center">
+              <div
+                key={item.heading}
+                className="mt-6 md:mt-0 flex flex-col items-center"
+              >
                 <Typography textTransform={"uppercase"} fontSize={16}>
                   {item.heading}
                 </Typography>
                 <ul className="space-y-2 mt-3">
-                  {item.sub.map((e) => {
-                    return <Typography  fontSize={14}>{e.name}</Typography>
+                  {item.sub.map((e, i) => {
+                    return (
+                      <Typography key={e.name} fontSize={14}>
+                        {e.name}
+                      </Typography>
+                    );
                   })}
                 </ul>
               </div>

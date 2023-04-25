@@ -5,28 +5,34 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Chip } from "@mui/material";
 
 export default function ImgMediaCard({ blog }) {
-  const { title, description } = blog;
+  const { heading, description, tags } = blog;
   return (
-    <Card sx={{ maxWidth: 320 }}>
+    <Card sx={{ width: 320 }}>
       <CardMedia
         component="img"
-        alt={title}
-        height="80"
-        width="160"
+        alt={heading}
+        height="100"
+        width="180"
         image="/static/images/cards/contemplative-reptile.jpg"
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {title}
+          {heading}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
+        <div className="mt-3 space-x-2">
+          {tags && tags.map((tag) => (
+            <Chip label={tag} />
+          ))}
+        </div>
       </CardContent>
+
       <CardActions>
-        <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
       </CardActions>
     </Card>

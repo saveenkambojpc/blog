@@ -1,25 +1,31 @@
-import { async } from "@firebase/util";
-import { Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
+import { onValue } from "firebase/database";
 import React, { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { readData } from "../api";
+import { dbCollectionRef } from "../api";
 import Banner from "../components/Home/Banner";
 import BlogCards from "../components/Home/BlogCards";
 import { theme } from "../misc/theme";
 import { set_blog_arr } from "../redux/features/blogs";
+import { set_is_loading } from "../redux/features/helper";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [blogs, setBlogs] = React.useState([]);
+  const blogsState = useSelector((store) => store.blogs);
+
   const fetchBlogs = useCallback(() => {
-    readData("blog").then((data) => {
+    dispatch(set_is_loading(true));
+    onValue(dbCollectionRef("blogs"), (snapshot) => {
+      const data = snapshot.val();
+      dispatch(set_is_loading(false));
       dispatch(set_blog_arr(data));
+      console.log(data);
     });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [fetchBlogs]);
 
   return (
     <div>
@@ -47,7 +53,20 @@ const Home = () => {
       <div className="my-6">
         <Typography variant="h5">Popular Blogs</Typography>
         <div className="mt-6">
-          <BlogCards />
+          {console.log(blogsState.blog_arr)}
+          {Object.keys(blogsState.blog_arr).length > 0 ? (
+            <BlogCards />
+          ) : (
+            <Box width={320}>
+              <Skeleton variant="rectangular" height={160} />
+
+              <Box sx={{ pt: 0.5 }}>
+                <Skeleton width="60%" />
+                <Skeleton />
+                <Skeleton width="80%" />
+              </Box>
+            </Box>
+          )}
         </div>
       </div>
     </div>
