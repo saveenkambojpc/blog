@@ -4,8 +4,11 @@ export const theme = {
             primary: "#111727",
             // primary: "green",
 
-            secondary:"#131824",
-            teritary:"#454c59"
+            secondary: "#131824",
+            teritary: "#454c59",
+
+            body: "#f9f9f9",
+            header: "#f3fe39"
         }
     }
 }

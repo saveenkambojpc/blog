@@ -34,7 +34,10 @@ export default function Header() {
   ];
   return (
     <>
-      <header className="shadow-lg sticky top-0 z-10 bg-white">
+      <header
+        className="shadow-lg sticky top-0 z-10"
+        style={{ background: theme.palette.colors.header }}
+      >
         <nav
           className="flex justify-between items-center py-5 text-sm font-semibold  h-color z-20 lg:px-32  px-6 w-full"
           id="navbar"
