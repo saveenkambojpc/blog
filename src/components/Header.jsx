@@ -35,7 +35,7 @@ export default function Header() {
   return (
     <>
       <header
-        className="shadow-lg sticky top-0 z-10"
+        className="shadow-lg sticky top-0 z-10 "
         style={{ background: theme.palette.colors.header }}
       >
         <nav
@@ -107,7 +107,7 @@ export default function Header() {
               </Button>
             </ul>
           </ul>
-        )}{" "}
+        )}
         <div className="h-[4px]">
           {helperState.is_loading && <CustomLinearProgress />}
         </div>

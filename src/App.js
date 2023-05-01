@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Admin from "./pages/Admin";
+import { SnackbarProvider } from "notistack";
 
 const router = createBrowserRouter([
   {
@@ -31,11 +32,16 @@ export default function App() {
 
   React.useEffect(() => {
     readData("blog")
+
+
+    // uploadFile()
   }, [])
 
 
   return (
+
     <RouterProvider router={router} />
+
   );
 }
 

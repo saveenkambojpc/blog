@@ -4,7 +4,13 @@ const initialState = {
     dialogObj: {
         logout: false
     },
-    is_loading: false
+    is_loading: false,
+    customAlert: {
+        visibility: false,
+        message: "",
+        type: ""
+    },
+
 
 
 
@@ -17,13 +23,16 @@ const Helper = createSlice({
         setDialogObj: (state, action) => {
             state.dialogObj = action.payload
         },
-        set_is_loading:(state,action) => {
-            state.is_loading= action.payload
-        }
+        set_is_loading: (state, action) => {
+            state.is_loading = action.payload
+        },
+        setCustomAlert: (state, action) => {
+            state.customAlert = action.payload
+        },
 
     }
 })
 
-export const { setDialogObj, set_is_loading } = Helper.actions
+export const { setDialogObj, set_is_loading, setCustomAlert } = Helper.actions
 
 export default Helper.reducer

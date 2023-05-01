@@ -52,6 +52,7 @@ const Home = () => {
       <Banner />
       <div className="my-6">
         <Typography variant="h5">Popular Blogs</Typography>
+
         <div className="mt-6">
           {console.log(blogsState.blog_arr)}
           {Object.keys(blogsState.blog_arr).length > 0 ? (
