@@ -2,7 +2,7 @@
 import { enqueueSnackbar } from "notistack";
 
 export const toggleAlert = (variant, message) => {
-    console.log(variant)
+    // console.log(variant)
     enqueueSnackbar(message, {
         variant,
         autoHideDuration: 1000,

@@ -8,15 +8,14 @@ import Typography from "@mui/material/Typography";
 import { Chip } from "@mui/material";
 
 export default function ImgMediaCard({ blog }) {
-  const { heading, description, tags } = blog;
+  const { heading, description, tags, image_link } = blog;
   return (
     <Card sx={{ width: 320 }}>
       <CardMedia
         component="img"
+        className="object-cover h-40"
         alt={heading}
-        height="100"
-        width="180"
-        image="/static/images/cards/contemplative-reptile.jpg"
+        image={image_link}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -26,9 +25,7 @@ export default function ImgMediaCard({ blog }) {
           {description}
         </Typography>
         <div className="mt-3 space-x-2">
-          {tags && tags.map((tag) => (
-            <Chip label={tag} />
-          ))}
+          {tags && tags.map((tag) => <Chip label={tag} />)}
         </div>
       </CardContent>
 

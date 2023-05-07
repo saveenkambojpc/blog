@@ -25,13 +25,14 @@ const Admin = () => {
       [evt.target.name]: value,
     });
   }
-  function handleBlogSubmit(e) {
+  async function handleBlogSubmit(e) {
     e.preventDefault();
     const id = guidGenerator();
-    writeData("blogs", id, form_data);
 
     let file = form_data.files[0];
-    uploadFile(id, file);
+    const url = await uploadFile(id, file);
+
+    writeData("blogs", id, { ...form_data, image_link: url });
 
     // reset the state
     set_form_data(initialFormData);

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    blog_arr: []
+    blogs_obj: []
 
 
 
@@ -12,12 +12,12 @@ const Blog = createSlice({
     initialState,
     reducers: {
 
-        set_blog_arr: (state, action) => {
-            state.blog_arr = action.payload
+        set_blogs_obj: (state, action) => {
+            state.blogs_obj = action.payload
         }
     }
 })
 
-export const { set_blog_arr } = Blog.actions
+export const { set_blogs_obj } = Blog.actions
 
 export default Blog.reducer

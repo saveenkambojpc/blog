@@ -7,6 +7,7 @@ import { styles } from "../css/style";
 import { Link } from "react-router-dom";
 import CustomLinearProgress from "./helper/CustomLinearProgress";
 import { useSelector } from "react-redux";
+import { isDarkMode } from "../misc/helper";
 export default function Header() {
   const helperState = useSelector((store) => store.helper);
   const [is_mobile_open, set_is_mobile_open] = React.useState(false);

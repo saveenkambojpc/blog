@@ -1,25 +1,41 @@
+import { async } from "@firebase/util";
 import { Box, Skeleton, Typography } from "@mui/material";
 import { onValue } from "firebase/database";
+import { getDownloadURL, listAll, ref } from "firebase/storage";
 import React, { useCallback, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dbCollectionRef } from "../api";
+import { getFolderItemsReference, getPathReference } from "../api/upload";
 import Banner from "../components/Home/Banner";
 import BlogCards from "../components/Home/BlogCards";
+import { storage } from "../misc/firebaseConfig";
 import { theme } from "../misc/theme";
-import { set_blog_arr } from "../redux/features/blogs";
-import { set_is_loading } from "../redux/features/helper";
+import { set_blogs_obj } from "../redux/features/blogs";
+import helper, { set_is_loading } from "../redux/features/helper";
 
 const Home = () => {
   const dispatch = useDispatch();
   const blogsState = useSelector((store) => store.blogs);
+  const helperState = useSelector((store) => store.helper);
+  const [urls, setUrls] = useState([]);
 
   const fetchBlogs = useCallback(() => {
     dispatch(set_is_loading(true));
     onValue(dbCollectionRef("blogs"), (snapshot) => {
-      const data = snapshot.val();
       dispatch(set_is_loading(false));
-      dispatch(set_blog_arr(data));
-      console.log(data);
+      if (snapshot.val()) {
+        const data = snapshot.val();
+        const sample = {
+          "3434fac-dge": {
+            name: "Heading",
+            desc: "Description",
+            images: ["https:fire/ase/image1.png", "https:fire/ase/image2.png"],
+          },
+        };
+
+        dispatch(set_blogs_obj(data));
+      }
     });
   }, [dispatch]);
 
@@ -54,10 +70,9 @@ const Home = () => {
         <Typography variant="h5">Popular Blogs</Typography>
 
         <div className="mt-6">
-          {console.log(blogsState.blog_arr)}
-          {Object.keys(blogsState.blog_arr).length > 0 ? (
+          {Object.keys(blogsState.blogs_obj).length > 0 ? (
             <BlogCards />
-          ) : (
+          ) : helperState.is_loading ? (
             <Box width={320}>
               <Skeleton variant="rectangular" height={160} />
 
@@ -67,6 +82,8 @@ const Home = () => {
                 <Skeleton width="80%" />
               </Box>
             </Box>
+          ) : (
+            <div> No Blog Found</div>
           )}
         </div>
       </div>
