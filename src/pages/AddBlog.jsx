@@ -1,19 +1,22 @@
 import { Button, TextField } from "@mui/material";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { writeData } from "../api";
 import { uploadFile, uploadFiles } from "../api/upload";
 import CustomAlert from "../components/helper/CustomAlert";
 import CustomTextField from "../components/helper/CustomTextField";
+import { styles } from "../css/style";
 import { guidGenerator, toggleAlert } from "../misc/helper";
+import { set_is_loading } from "../redux/features/helper";
 
 const initialFormData = {
   heading: "",
   description: "",
   body: "",
-  files: [],
 };
 
-const Admin = () => {
+export default function AddBlog() {
+  const dispatch = useDispatch();
   const [form_data, set_form_data] = React.useState(initialFormData);
 
   // const [state, setState] = React.useState({});
@@ -27,12 +30,15 @@ const Admin = () => {
   }
   async function handleBlogSubmit(e) {
     e.preventDefault();
+    dispatch(set_is_loading(true));
     const id = guidGenerator();
 
     let file = form_data.files[0];
     const url = await uploadFile(id, file);
 
-    writeData("blogs", id, { ...form_data, image_link: url });
+    writeData("blogs", id, { ...form_data, image_link: url, id }, () => {
+      dispatch(set_is_loading(false));
+    });
 
     // reset the state
     set_form_data(initialFormData);
@@ -77,6 +83,7 @@ const Admin = () => {
         required
         fullWidth
         label={"Body"}
+        multiline
       />
       <div>
         <input
@@ -89,11 +96,9 @@ const Admin = () => {
         />
       </div>
 
-      <Button variant="contained" type="submit">
+      <Button variant="contained" type="submit" sx={styles.filled_button}>
         Submit
       </Button>
     </form>
   );
-};
-
-export default Admin;
+}

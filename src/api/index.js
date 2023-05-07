@@ -8,10 +8,11 @@ import { toggleAlert } from "../misc/helper";
 
 
 
-export function writeData(collection, id, obj) {
+export function writeData(collection, id, obj, callback) {
     set(ref(database, `${collection}/` + id), obj)
         .then(res => {
             toggleAlert('success', "Added Successfully")
+            callback()
         })
 }
 

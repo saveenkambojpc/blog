@@ -9,8 +9,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/Layout";
-import Admin from "./pages/Admin";
 import { SnackbarProvider } from "notistack";
+import Blogs from "./pages/Blogs";
+import BlogPage from "./pages/BlogPage";
+import AddBlog from "./pages/AddBlog";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +20,19 @@ const router = createBrowserRouter([
     element: <Layout><Home /></Layout>,
   },
   {
-    path: "/admin",
+    path: "/blogs",
+    element: <Layout><Blogs /></Layout>,
+  },
+  {
+    path: "/blogs/:id",
+    element: <Layout><BlogPage /></Layout>,
+  },
+  {
+    path: "/add_blog",
     element: <>
 
       <Header />
-      <Admin />
+      <AddBlog />
     </>
   }
 ]);

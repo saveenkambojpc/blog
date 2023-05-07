@@ -5,33 +5,45 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Chip } from "@mui/material";
+import { Chip, Grid, IconButton } from "@mui/material";
+import { Link } from "react-router-dom";
+import { OpenInNew } from "@mui/icons-material";
 
 export default function ImgMediaCard({ blog }) {
-  const { heading, description, tags, image_link } = blog;
+  const { heading, description, tags, image_link, id } = blog;
   return (
-    <Card sx={{ width: 320 }}>
+    <Grid sx={{ width: 320 }}>
       <CardMedia
         component="img"
-        className="object-cover h-40"
+        className="h-44"
         alt={heading}
         image={image_link}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {heading}
-        </Typography>
+        <div className="flex justify-between">
+          <Typography gutterBottom variant="h5" component="div">
+            {heading}
+          </Typography>
+          <Link title="Read more" to={`/blogs/${id}`} size="small">
+            <IconButton>
+              <OpenInNew />
+            </IconButton>
+          </Link>
+        </div>
         <Typography variant="body2" color="text.secondary">
           {description}
         </Typography>
+
         <div className="mt-3 space-x-2">
           {tags && tags.map((tag) => <Chip label={tag} />)}
         </div>
       </CardContent>
 
       <CardActions>
-        <Button size="small">Learn More</Button>
+        {/* <Link to={`/blogs/${id}`} size="small">
+          Learn More
+        </Link> */}
       </CardActions>
-    </Card>
+    </Grid>
   );
 }

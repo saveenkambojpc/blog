@@ -7,8 +7,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { dbCollectionRef } from "../api";
 import { getFolderItemsReference, getPathReference } from "../api/upload";
+import BlogCardsContainer from "../components/Blogs/BlogCardsContainer";
 import Banner from "../components/Home/Banner";
-import BlogCards from "../components/Home/BlogCards";
+// import BlogCards from "../components/Home/BlogCards";
 import { storage } from "../misc/firebaseConfig";
 import { theme } from "../misc/theme";
 import { set_blogs_obj } from "../redux/features/blogs";
@@ -18,7 +19,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const blogsState = useSelector((store) => store.blogs);
   const helperState = useSelector((store) => store.helper);
-  const [urls, setUrls] = useState([]);
 
   const fetchBlogs = useCallback(() => {
     dispatch(set_is_loading(true));
@@ -26,14 +26,6 @@ const Home = () => {
       dispatch(set_is_loading(false));
       if (snapshot.val()) {
         const data = snapshot.val();
-        const sample = {
-          "3434fac-dge": {
-            name: "Heading",
-            desc: "Description",
-            images: ["https:fire/ase/image1.png", "https:fire/ase/image2.png"],
-          },
-        };
-
         dispatch(set_blogs_obj(data));
       }
     });
@@ -71,7 +63,7 @@ const Home = () => {
 
         <div className="mt-6">
           {Object.keys(blogsState.blogs_obj).length > 0 ? (
-            <BlogCards />
+            <BlogCardsContainer limit={6} />
           ) : helperState.is_loading ? (
             <Box width={320}>
               <Skeleton variant="rectangular" height={160} />
