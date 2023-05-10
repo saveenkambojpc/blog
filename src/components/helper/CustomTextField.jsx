@@ -6,6 +6,7 @@ const CustomTextField = ({
   label,
   fullWidth,
   required,
+  placeholder,
   onChange,
   multiline,
   name,
@@ -27,16 +28,13 @@ const CustomTextField = ({
       <Autocomplete
         id=""
         freeSolo
-        value={value}
-        onChange={onChange}
         options={[]}
-        inputValue={value}
-        onInputChange={onChange}
         renderInput={(params) => (
           <TextField
             {...params}
             id="outlined-basic"
             label={label}
+            placeholder={placeholder}
             value={value}
             variant="outlined"
             fullWidth={fullWidth}

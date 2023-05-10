@@ -1,4 +1,10 @@
-import { Button, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,11 +14,24 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomLinearProgress from "./helper/CustomLinearProgress";
 import { useSelector } from "react-redux";
 import { isDarkMode } from "../misc/helper";
+import { AccountCircle, More } from "@mui/icons-material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import MoreIcon from "@mui/icons-material/MoreVert";
 export default function Header() {
   const helperState = useSelector((store) => store.helper);
   const [is_mobile_open, set_is_mobile_open] = React.useState(false);
-
   const { pathname } = useLocation();
+
+  // Menu
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const headers = [
     {
@@ -26,6 +45,7 @@ export default function Header() {
     {
       title: "Add Blog",
       to: "/add_blog",
+      tooltip: "Please Login first",
     },
     // {
     //   title: "Resources",
@@ -43,7 +63,7 @@ export default function Header() {
         style={{ background: theme.palette.colors.header }}
       >
         <nav
-          className="flex justify-between items-center py-5 text-sm font-semibold  h-color z-20 lg:px-32  px-6 w-full"
+          className="flex justify-between items-center py-3 text-sm font-semibold  h-color z-20 lg:px-32 px-6 w-full"
           id="navbar"
         >
           <Typography
@@ -57,25 +77,72 @@ export default function Header() {
             <li></li>
             {headers.map((item) => (
               <Link to={item.to} key={item.title}>
-                <Typography
-                  color={theme.palette.colors.primary}
-                  borderBottom={pathname == item.to ? 3 : 0}
+                <Tooltip
+                  title={
+                    JSON.parse(sessionStorage.getItem("auth"))
+                      ? item.title
+                      : item.tooltip
+                  }
                 >
-                  {item.title}
-                </Typography>
+                  <Button>
+                    <Typography
+                      color={theme.palette.colors.primary}
+                      borderBottom={pathname == item.to ? 3 : 0}
+                    >
+                      {item.title}
+                    </Typography>
+                  </Button>
+                </Tooltip>
               </Link>
             ))}
           </ul>
-          {/* <ul className="md:flex hidden space-x-6 ">
-            <span></span>
-            <Button variant="text" sx={styles.text_button}>
-              Log in
-            </Button>
-            <Button variant="contained" size="large" sx={styles.filled_button}>
-              Sign up
-            </Button>
-          </ul> */}
-          <div className="md:flex hidden">{LoginSignupComponent()}</div>
+
+          <div className="md:flex hidden">
+            {!JSON.parse(sessionStorage.getItem("auth")) ? (
+              LoginSignupComponent()
+            ) : (
+              <div className="flex items-center">
+                {JSON.parse(sessionStorage.getItem("auth")).email}
+                <IconButton>
+                  <AccountCircle />
+                </IconButton>
+
+                <div>
+                  <IconButton
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={handleClose}
+                      style={{
+                        background:
+                          pathname == "/profile"
+                            ? theme.palette.colors.header
+                            : "white",
+                      }}
+                    >
+                      <Link to={"/profile"}>Profile</Link>
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </Menu>
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="md:hidden self-start">
             <IconButton
@@ -124,12 +191,16 @@ export default function Header() {
 function LoginSignupComponent() {
   return (
     <ul className="flex justify-between w-full md:space-x-6 items-center  ">
-      <Button variant="outlined" sx={styles.outlined_button}>
-        Log in
-      </Button>
-      <Button variant="contained" size="large" sx={styles.filled_button}>
-        Sign up
-      </Button>
+      <Link to="login">
+        <Button variant="outlined" sx={styles.outlined_button}>
+          Log in
+        </Button>
+      </Link>
+      <Link to={"/signup"}>
+        <Button variant="contained" size="large" sx={styles.filled_button}>
+          Sign up
+        </Button>
+      </Link>
     </ul>
   );
 }

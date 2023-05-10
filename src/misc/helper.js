@@ -5,7 +5,8 @@ export const toggleAlert = (variant, message) => {
     // console.log(variant)
     enqueueSnackbar(message, {
         variant,
-        autoHideDuration: 1000,
+        autoHideDuration: 3000,
+
     });
 };
 

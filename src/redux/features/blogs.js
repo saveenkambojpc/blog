@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    blogs_obj: []
+    blogs_obj: [],
+
 
 
 

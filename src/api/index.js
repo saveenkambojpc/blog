@@ -2,6 +2,7 @@ import { ref, set } from "firebase/database";
 import { database } from "../misc/firebaseConfig";
 import { onValue } from "firebase/database";
 import { toggleAlert } from "../misc/helper";
+import { updateProfile } from "firebase/auth";
 
 
 
@@ -30,5 +31,12 @@ export async function readData(collection) {
         return data;
     });
 
+
+}
+
+export async function updateUserProfile(user, data) {
+    console.log('user is ', user)
+    // updateProfile(user, { 'displayName': "Saveen Kk" )
+    updateProfile(user, data)
 
 }

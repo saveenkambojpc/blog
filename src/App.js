@@ -13,6 +13,11 @@ import { SnackbarProvider } from "notistack";
 import Blogs from "./pages/Blogs";
 import BlogPage from "./pages/BlogPage";
 import AddBlog from "./pages/AddBlog";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
+import Unauth from "./pages/Unauth";
+import Profile from "./pages/Profile";
 
 const router = createBrowserRouter([
   {
@@ -28,13 +33,46 @@ const router = createBrowserRouter([
     element: <Layout><BlogPage /></Layout>,
   },
   {
-    path: "/add_blog",
+    path: "/signup",
     element: <>
-
-      <Header />
-      <AddBlog />
+      <Signup />
     </>
-  }
+  },
+  {
+    path: "/login",
+    element:
+      <>
+        <Login />
+      </>
+  },
+  {
+    path: "/add_blog",
+    element:
+      <PrivateRoute>
+        <AddBlog />
+
+      </PrivateRoute>
+  },
+  {
+    path: "/unauth",
+    element: <Unauth />,
+  },
+  {
+    path: "*",
+    element: <Unauth />,
+  },
+  {
+    path: "/profile",
+    element: <>
+      <PrivateRoute>
+
+        <Profile />
+
+        <Footer />
+      </PrivateRoute>
+    </>
+  },
+
 ]);
 
 

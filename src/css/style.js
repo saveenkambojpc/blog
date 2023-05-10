@@ -7,6 +7,9 @@ export const styles = {
         fontWeight: 600,
         '&:hover': {
             background: "#6da8e2"
+        },
+        '&.Mui-disabled':{
+            color:"gray"
         }
     },
 
