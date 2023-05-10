@@ -12,15 +12,19 @@ import { theme } from "../misc/theme";
 import { styles } from "../css/style";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomLinearProgress from "./helper/CustomLinearProgress";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { isDarkMode } from "../misc/helper";
 import { AccountCircle, More } from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import CustomDialog from "./helper/CustomDialog";
+import { setDialogObj } from "../redux/features/helper";
+
 export default function Header() {
   const helperState = useSelector((store) => store.helper);
   const [is_mobile_open, set_is_mobile_open] = React.useState(false);
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   // Menu
@@ -56,6 +60,15 @@ export default function Header() {
     //   to: "/pricing",
     // },
   ];
+
+  function handleLogoutModalClose() {
+    dispatch(
+      setDialogObj({
+        ...helperState.dialogObj,
+        logout: false,
+      })
+    );
+  }
   return (
     <>
       <header
@@ -137,7 +150,19 @@ export default function Header() {
                     >
                       <Link to={"/profile"}>Profile</Link>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                        dispatch(
+                          setDialogObj({
+                            ...helperState.dialogObj,
+                            logout: true,
+                          })
+                        );
+                      }}
+                    >
+                      Logout
+                    </MenuItem>
                   </Menu>
                 </div>
               </div>
@@ -183,6 +208,18 @@ export default function Header() {
         <div className="h-[4px]">
           {helperState.is_loading && <CustomLinearProgress />}
         </div>
+
+        <CustomDialog
+          open={helperState.dialogObj.logout}
+          title={"Do you really want to Logout?"}
+          dialogAction={
+            <>
+              <Button onClick={handleLogoutModalClose}>Disagree</Button>
+              <Button onClick={handleLogoutModalClose}>Agree</Button>
+            </>
+          }
+          handleClose={handleLogoutModalClose}
+        />
       </header>
     </>
   );

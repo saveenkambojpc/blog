@@ -8,7 +8,12 @@ export const theme = {
             teritary: "#454c59",
 
             body: "#f9f9f9",
-            header: "#f3fe39"
-        }
+            header: "#f3fe39",
+            
+            text60:"#00000099",
+            
+        },
+        
+        
     }
 }
