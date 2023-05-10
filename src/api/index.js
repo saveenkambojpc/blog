@@ -1,4 +1,4 @@
-import { ref, set } from "firebase/database";
+import { ref, set, update } from "firebase/database";
 import { database } from "../misc/firebaseConfig";
 import { onValue } from "firebase/database";
 import { toggleAlert } from "../misc/helper";
@@ -7,7 +7,12 @@ import { updateProfile } from "firebase/auth";
 
 
 
-
+export function updateData(collection, id, data){
+    update(ref(database, `${collection}/`+id), data)
+    .then(res => {
+        console.log('successfully updated')
+    })
+}
 
 export function writeData(collection, id, obj, callback) {
     set(ref(database, `${collection}/` + id), obj)
