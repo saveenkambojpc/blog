@@ -13,19 +13,22 @@ import { styles } from "../css/style";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomLinearProgress from "./helper/CustomLinearProgress";
 import { useDispatch, useSelector } from "react-redux";
-import { isDarkMode } from "../misc/helper";
+import { isDarkMode, toggleAlert } from "../misc/helper";
 import { AccountCircle, More } from "@mui/icons-material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import CustomDialog from "./helper/CustomDialog";
 import { setDialogObj } from "../redux/features/helper";
+import { messages } from "../misc/messages";
 
 export default function Header() {
   const helperState = useSelector((store) => store.helper);
   const [is_mobile_open, set_is_mobile_open] = React.useState(false);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
 
   // Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -68,6 +71,16 @@ export default function Header() {
         logout: false,
       })
     );
+  }
+  function handleLogout(){
+    toggleAlert("success", messages.logout.success);
+    
+    sessionStorage.clear()
+    handleLogoutModalClose()
+
+    return navigate("/");
+
+
   }
   return (
     <>
@@ -215,7 +228,7 @@ export default function Header() {
           dialogAction={
             <>
               <Button onClick={handleLogoutModalClose}>Disagree</Button>
-              <Button onClick={handleLogoutModalClose}>Agree</Button>
+              <Button onClick={handleLogout}>Agree</Button>
             </>
           }
           handleClose={handleLogoutModalClose}
@@ -228,7 +241,7 @@ export default function Header() {
 function LoginSignupComponent() {
   return (
     <ul className="flex justify-between w-full md:space-x-6 items-center  ">
-      <Link to="login">
+      <Link to="/login">
         <Button variant="outlined" sx={styles.outlined_button}>
           Log in
         </Button>
