@@ -6,6 +6,8 @@ import { ArrowBackIos } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { setIsAuthenticated } from "../redux/features/helper";
+import { messages } from "../misc/messages";
+import { toggleAlert } from "../misc/helper";
 
 export default function Login() {
   const [data, setData] = useState({});
@@ -31,6 +33,7 @@ export default function Login() {
         const user = userCredential.user;
         dispatch(setIsAuthenticated(true));
         sessionStorage.setItem("auth", JSON.stringify(user));
+        toggleAlert("success", messages.login.success);
 
         return navigate("/");
       })

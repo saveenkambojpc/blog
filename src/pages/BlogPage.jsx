@@ -1,4 +1,9 @@
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,17 +13,25 @@ import CustomTextField from "../components/helper/CustomTextField";
 import { styles } from "../css/style";
 import { guidGenerator, timeSince } from "../misc/helper";
 import { set_blogs_obj } from "../redux/features/blogs";
+import { theme } from "../misc/theme";
+import {
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  HeadsetSharp,
+  Send,
+} from "@mui/icons-material";
 
 const BlogPage = () => {
   const { id: blog_id } = useParams();
   const blogsState = useSelector((store) => store.blogs);
   const [commentValue, setCommentValue] = useState("");
   const dispatch = useDispatch();
+  console.log("id is ", blog_id, blogsState.blogs_obj[blog_id]);
+  const helperState = useSelector((store) => store.helper);
 
-  const { heading, description, body, image_link, comments } =
-    blogsState.blogs_obj[blog_id];
+  // const { heading, description, body, image_link, comments } =
+  //   blogsState.blogs_obj[blog_id];
   // window.scrollTo(0, 0);
-  console.log(comments);
 
   function handleAddComment() {
     const comment_id = guidGenerator();
@@ -32,15 +45,30 @@ const BlogPage = () => {
     };
     writeData("blogs", `${blog_id}/comments/${comment_id}`, data, () => {});
   }
+
+  if (helperState.is_loading) {
+    return (
+      <div className="flex justify-center items-center h-20">
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <div className="my-6">
       <div className="md:flex pb-3">
         <div className="w-1/2">
-          <Typography variant="h3">{heading}</Typography>
-          <Typography className="py-3" variant="h5">{description}</Typography>
+          <Typography variant="h2">
+            {blogsState.blogs_obj[blog_id]?.heading}
+          </Typography>
+          <Typography variant="h4">
+            {blogsState.blogs_obj[blog_id]?.description}
+          </Typography>
+          <Typography variant="body">
+            {blogsState.blogs_obj[blog_id]?.body}
+          </Typography>
         </div>
-        <div className="md:w-1/2 m-auto">
-          <img src={image_link} />
+        <div className="w-1/2 m-auto">
+          <img src={blogsState.blogs_obj[blog_id]?.image_link} />
         </div>
       </div>
         <Typography variant="body">{body}</Typography>
@@ -50,32 +78,42 @@ const BlogPage = () => {
       <div className="">
         <Typography variant="h4">Comments</Typography>
 
-        <div className="border rounded-lg my-3 overflow-scroll p-3 scrollbar-hide h-[300px]">
+        <div className="shadow rounded-lg my-3 overflow-scroll p-3 scrollbar-hide h-[300px]">
           <div className="flex flex-col gap-3">
-            {comments &&
-              Object.values(comments).map((comment) => {
-                return (
-                  <div className="bg-slate-100 p-1 rounded-lg flex justify-between">
-                    <div className="flex">
-                      <div className=" flex justify-center items-center bg-slate-400 rounded-full h-12 w-12">
-                        <Typography color={"white"}>
-                          {comment.uname[0]}
-                        </Typography>
+            {blogsState.blogs_obj[blog_id]?.comments &&
+              Object.values(blogsState.blogs_obj[blog_id]?.comments).map(
+                (comment) => {
+                  return (
+                    <div className="bg-slate-100 p-1 rounded-lg flex justify-between">
+                      <div className="flex">
+                        <div className=" flex justify-center items-center bg-slate-400 rounded-full h-12 w-12">
+                          <Typography color={"white"}>
+                            {comment.uname[0]}
+                          </Typography>
+                        </div>
+                        <div className="px-3">
+                          <Typography
+                            color={theme.palette.colors.text60}
+                            fontSize={12}
+                            variant="subtitle1"
+                          >
+                            {comment.uname} &#x2022;{" "}
+                            {timeSince(new Date(comment.created_at))} ago
+                          </Typography>
+
+                          <Typography>{comment.message}</Typography>
+                        </div>
                       </div>
-                      <div className="px-3">
-                        <Typography>{comment.message}</Typography>
-                        <Typography fontSize={14} variant="subtitle1">
-                          {comment.uname}
-                        </Typography>
+
+                      <div>
+                        <IconButton>
+                          <FavoriteBorderOutlined />
+                        </IconButton>
                       </div>
                     </div>
-
-                    <Typography fontSize={14} color="peru">
-                      {timeSince(new Date(comment.created_at))}
-                    </Typography>
-                  </div>
-                );
-              })}
+                  );
+                }
+              )}
           </div>
         </div>
 
@@ -94,6 +132,7 @@ const BlogPage = () => {
                 disabled={!commentValue}
                 variant="filled"
                 sx={styles.filled_button}
+                endIcon={<Send />}
               >
                 Submit
               </Button>

@@ -12,6 +12,8 @@ const initialState = {
     },
     is_authenticated: false,
 
+ 
+
 
 
 }
@@ -31,11 +33,12 @@ const Helper = createSlice({
         },
         setIsAuthenticated: (state, action) => {
             state.is_authenticated = action.payload
-        }
+        },
+       
 
     }
 })
 
-export const { setDialogObj, set_is_loading, setCustomAlert, setIsAuthenticated } = Helper.actions
+export const { setDialogObj, set_is_loading, setCustomAlert, setIsAuthenticated,  } = Helper.actions
 
 export default Helper.reducer

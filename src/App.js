@@ -1,5 +1,5 @@
-import React from "react";
-import { readData, writeData } from "./api";
+import React, { useCallback, useEffect } from "react";
+import { dbCollectionRef, readData, writeData } from "./api";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -18,6 +18,10 @@ import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Unauth from "./pages/Unauth";
 import Profile from "./pages/Profile";
+import { useDispatch, useSelector } from "react-redux";
+import { set_is_loading } from "./redux/features/helper";
+import { onValue } from "firebase/database";
+import { set_blogs_obj } from "./redux/features/blogs";
 
 const router = createBrowserRouter([
   {
@@ -78,12 +82,32 @@ const router = createBrowserRouter([
 
 export default function App() {
 
+  const dispatch = useDispatch();
+  const blogsState = useSelector((store) => store.blogs);
+  const helperState = useSelector((store) => store.helper);
+
   React.useEffect(() => {
+    
     readData("blog")
 
 
     // uploadFile()
   }, [])
+
+  const fetchBlogs = useCallback(() => {
+    dispatch(set_is_loading(true));
+    onValue(dbCollectionRef("blogs"), (snapshot) => {
+      dispatch(set_is_loading(false));
+      if (snapshot.val()) {
+        const data = snapshot.val();
+        dispatch(set_blogs_obj(data));
+      }
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
 
 
   return (
