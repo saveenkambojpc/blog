@@ -224,6 +224,7 @@ export default function Header() {
 
         <CustomDialog
           open={helperState.dialogObj.logout}
+          maxWidth={"xs"}
           title={"Do you really want to Logout?"}
           dialogAction={
             <>

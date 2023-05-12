@@ -63,15 +63,17 @@ const BlogPage = () => {
           <Typography variant="h4">
             {blogsState.blogs_obj[blog_id]?.description}
           </Typography>
-          <Typography variant="body">
-            {blogsState.blogs_obj[blog_id]?.body}
-          </Typography>
         </div>
-        <div className="w-1/2 m-auto">
+        <div className="md:w-1/2 m-auto">
           <img src={blogsState.blogs_obj[blog_id]?.image_link} />
         </div>
       </div>
-        <Typography variant="body">{body}</Typography>
+
+      <div className="">
+        <Typography variant="body">
+          {blogsState.blogs_obj[blog_id]?.body}
+        </Typography>
+      </div>
 
       <hr className="my-6" />
 

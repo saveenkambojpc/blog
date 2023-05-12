@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
 import { styles } from "../../css/style";
 import { theme } from "../../misc/theme";
+import { timeSince } from "../../misc/helper";
 
 export default function ImgMediaCard({ blog }) {
   const { heading, description, tags, image_link, id } = blog;
@@ -23,7 +24,10 @@ export default function ImgMediaCard({ blog }) {
       />
       <CardContent>
         <div className="">
-          <Typography  fontSize={12}>{blog?.creator_name}</Typography>
+          <Typography fontSize={12}>
+            {blog?.creator_name} &#x2022;{" "}
+            {timeSince(new Date(blog?.created_at))}
+          </Typography>
         </div>
         <div className="flex justify-between">
           <Typography gutterBottom variant="h5" component="div">

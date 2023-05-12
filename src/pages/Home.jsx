@@ -1,14 +1,16 @@
 import { async } from "@firebase/util";
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import { onValue } from "firebase/database";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { dbCollectionRef } from "../api";
 import { getFolderItemsReference, getPathReference } from "../api/upload";
 import BlogCardsContainer from "../components/Blogs/BlogCardsContainer";
 import Banner from "../components/Home/Banner";
+import { styles } from "../css/style";
 // import BlogCards from "../components/Home/BlogCards";
 import { storage } from "../misc/firebaseConfig";
 import { theme } from "../misc/theme";
@@ -63,7 +65,16 @@ const Home = () => {
 
         <div className="mt-6">
           {Object.keys(blogsState.blogs_obj).length > 0 ? (
-            <BlogCardsContainer limit={6} />
+            <>
+              <BlogCardsContainer limit={6} />
+              <div className="flex w-full justify-center">
+                <Link to="/blogs">
+                  <Button variant="outlined" sx={styles.outlined_button}>
+                    Show More
+                  </Button>
+                </Link>
+              </div>
+            </>
           ) : helperState.is_loading ? (
             <Box width={320}>
               <Skeleton variant="rectangular" height={160} />

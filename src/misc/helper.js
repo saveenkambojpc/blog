@@ -19,9 +19,9 @@ export function guidGenerator() {
 }
 
 
-// export function formatCustomDateTime(datetime){
-//     return dayjs(datetime).format('DD-MM-YY')
-// }
+export function formatCustomDateTime(datetime){
+    return dayjs(datetime).format('DD-MM-YY hh:mm A')
+}
 
 export function timeSince(date) {
     console.log(date)

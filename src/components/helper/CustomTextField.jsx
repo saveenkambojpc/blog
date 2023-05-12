@@ -8,27 +8,35 @@ const CustomTextField = ({
   required,
   placeholder,
   onChange,
+  disabled,
   multiline,
   name,
 }) => {
   return (
     <>
-      {/* <TextField
+      <TextField
+      disabled={disabled}
         id="outlined-basic"
         label={label}
         value={value}
         variant="outlined"
         fullWidth={fullWidth}
         onChange={onChange}
+        size="small"
         required={required}
         name={name}
         multiline={multiline}
-      /> */}
+      />
 
-      <Autocomplete
+      {/* <Autocomplete
         id=""
         freeSolo
         options={[]}
+        value={value}
+        inputValue={value}
+        onInput={onChange}
+        placeholder={placeholder}
+        onChange={onChange}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -44,7 +52,7 @@ const CustomTextField = ({
             multiline={multiline}
           />
         )}
-      />
+      /> */}
     </>
   );
 };

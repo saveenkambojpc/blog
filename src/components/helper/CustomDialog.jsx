@@ -17,11 +17,14 @@ export default function CustomDialog({
   title,
   dialogContent,
   dialogAction,
+  maxWidth = "md",
 }) {
   return (
     <div>
       <Dialog
         open={open}
+        maxWidth={maxWidth}
+        fullWidth
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}

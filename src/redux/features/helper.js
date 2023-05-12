@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     dialogObj: {
-        logout: false
+        logout: false,
+        manageBlog:false
     },
     is_loading: false,
     customAlert: {
