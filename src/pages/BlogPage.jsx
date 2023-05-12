@@ -34,16 +34,18 @@ const BlogPage = () => {
   }
   return (
     <div className="my-6">
-      <div className="md:flex">
+      <div className="md:flex pb-3">
         <div className="w-1/2">
-          <Typography variant="h2">{heading}</Typography>
-          <Typography variant="h4">{description}</Typography>
-          <Typography variant="body">{body}</Typography>
+          <Typography variant="h3">{heading}</Typography>
+          <Typography className="py-3" variant="h5">{description}</Typography>
         </div>
-        <div className="w-1/2 m-auto">
+        <div className="md:w-1/2 m-auto">
           <img src={image_link} />
         </div>
       </div>
+        <Typography variant="body">{body}</Typography>
+
+      <hr className="my-6" />
 
       <div className="">
         <Typography variant="h4">Comments</Typography>
@@ -56,7 +58,9 @@ const BlogPage = () => {
                   <div className="bg-slate-100 p-1 rounded-lg flex justify-between">
                     <div className="flex">
                       <div className=" flex justify-center items-center bg-slate-400 rounded-full h-12 w-12">
-                        <Typography color={"white"}>{comment.uname[0]}</Typography>
+                        <Typography color={"white"}>
+                          {comment.uname[0]}
+                        </Typography>
                       </div>
                       <div className="px-3">
                         <Typography>{comment.message}</Typography>

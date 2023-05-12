@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import { Chip, Grid, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { OpenInNew } from "@mui/icons-material";
+import { styles } from "../../css/style";
+import { theme } from "../../misc/theme";
 
 export default function ImgMediaCard({ blog }) {
   const { heading, description, tags, image_link, id } = blog;
@@ -20,6 +22,9 @@ export default function ImgMediaCard({ blog }) {
         image={image_link}
       />
       <CardContent>
+        <div className="">
+          <Typography  fontSize={12}>{blog?.creator_name}</Typography>
+        </div>
         <div className="flex justify-between">
           <Typography gutterBottom variant="h5" component="div">
             {heading}

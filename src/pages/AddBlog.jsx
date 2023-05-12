@@ -36,14 +36,19 @@ export default function AddBlog() {
     let file = form_data.files[0];
     const url = await uploadFile(id, file);
 
-    writeData(
-      "blogs",
+    const data = {
+      ...form_data,
+      image_link: url,
       id,
-      { ...form_data, image_link: url, id, comments: false },
-      () => {
-        dispatch(set_is_loading(false));
-      }
-    );
+      comments: false,
+      creator_id: JSON.parse(sessionStorage.getItem('auth')).uid,
+      creator_name: JSON.parse(sessionStorage.getItem('auth')).displayName,
+      created_at: new Date().toString(),
+    };
+
+    writeData("blogs", id, data, () => {
+      dispatch(set_is_loading(false));
+    });
 
     // reset the state
     set_form_data(initialFormData);
