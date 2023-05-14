@@ -27,7 +27,13 @@ import { formatCustomDateTime, toggleAlert } from "../../misc/helper";
 import CustomDialog from "../helper/CustomDialog";
 import { Button } from "@mui/material";
 import { setDialogObj } from "../../redux/features/helper";
-import { Close, Delete, Edit, Update } from "@mui/icons-material";
+import {
+  Close,
+  Delete,
+  Edit,
+  RemoveRedEyeOutlined,
+  Update,
+} from "@mui/icons-material";
 import { useState } from "react";
 import CustomTextField from "../helper/CustomTextField";
 
@@ -91,22 +97,28 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "title",
+    id: "subject",
     numeric: false,
     disablePadding: false,
-    label: "Title",
+    label: "Subject",
   },
   {
-    id: "description",
+    id: "name",
     numeric: false,
     disablePadding: false,
-    label: "Description",
+    label: "Name",
   },
   {
-    id: "creator_name",
+    id: "phone_number",
     numeric: false,
     disablePadding: false,
-    label: "Created By",
+    label: "Phone Number",
+  },
+  {
+    id: "email",
+    numeric: false,
+    disablePadding: false,
+    label: "Email",
   },
   {
     id: "created_at",
@@ -173,14 +185,14 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function BlogMaster() {
+export default function FeedbackMaster() {
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("created_at");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
-  const blogState = useSelector((store) => store.blogs);
+  const adminState = useSelector((store) => store.admin);
   const dispatch = useDispatch();
   const helperState = useSelector((store) => store.helper);
 
@@ -243,35 +255,27 @@ export default function BlogMaster() {
   const visibleRows = React.useMemo(
     () =>
       stableSort(
-        Object.values(blogState.blogs_obj),
+        Object.values(adminState.feedbackObj),
         getComparator(order, orderBy)
       ).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage, blogState.blogs_obj]
+    [order, orderBy, page, rowsPerPage, adminState.feedbackObj]
   );
-
-  function handleBlogDeleteRow(row) {
-    console.log(row);
-    deleteData("blogs", row.id, () => {
-      toggleAlert("success", "Successfully Deleted");
-      handleManageBlogModalClose();
-    });
-  }
 
   function handleRowClick(row) {
     setDialogData(row);
     dispatch(
       setDialogObj({
         ...helperState.dialogObj,
-        manageBlog: true,
+        viewFeedback: true,
       })
     );
   }
-  function handleManageBlogModalClose() {
+  function handleViewFeedbackModalClose() {
     setDialogData({});
     dispatch(
       setDialogObj({
         ...helperState.dialogObj,
-        manageBlog: false,
+        viewFeedback: false,
       })
     );
   }
@@ -280,6 +284,29 @@ export default function BlogMaster() {
       toggleAlert("success", "Successfully Updated");
     });
   }
+
+  const dialogContentRows = [
+    {
+      title: "Subject",
+      key: "subject",
+    },
+    {
+      title: "Name",
+      key: "name",
+    },
+    {
+      title: "Email",
+      key: "email",
+    },
+    {
+      title: "Phone Number",
+      key: "phone_number",
+    },
+    {
+      title: "Body",
+      key: "body",
+    },
+  ];
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -317,20 +344,27 @@ export default function BlogMaster() {
                       scope="row"
                       onClick={() => handleRowClick(row)}
                     >
-                      {row.heading}
+                      {row.subject}
                     </TableCell>
                     <TableCell
                       onClick={() => handleRowClick(row)}
                       sx={{ cursor: "pointer" }}
                     >
-                      {row.description}
+                      {row.name}
                     </TableCell>
                     <TableCell
                       onClick={() => handleRowClick(row)}
                       sx={{ cursor: "pointer" }}
                     >
-                      {row.creator_name}
+                      {row.phone_number}
                     </TableCell>
+                    <TableCell
+                      onClick={() => handleRowClick(row)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      {row.email}
+                    </TableCell>
+
                     <TableCell
                       onClick={() => handleRowClick(row)}
                       sx={{ cursor: "pointer" }}
@@ -339,18 +373,11 @@ export default function BlogMaster() {
                     </TableCell>
                     <TableCell className="space-x-3">
                       <IconButton
-                        color="success"
+                        color="primary"
                         onClick={() => handleRowClick(row)}
                         style={{ padding: 0 }}
                       >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleBlogDeleteRow(row)}
-                        style={{ padding: 0 }}
-                      >
-                        <DeleteIcon />
+                        <RemoveRedEyeOutlined />
                       </IconButton>
                     </TableCell>
                   </TableRow>
@@ -379,92 +406,40 @@ export default function BlogMaster() {
         />
       </Paper>
 
-      {helperState.dialogObj.manageBlog && (
+      {helperState.dialogObj.viewFeedback && (
         <CustomDialog
-          title={"Blog Description"}
-          open={helperState.dialogObj.manageBlog}
+          title={"User Feedback Description"}
+          open={helperState.dialogObj.viewFeedback}
           maxWidth="md"
           dialogContent={
-            <div className="flex md:flex-row flex-col gap-3 py-1">
-              <div className=" md:w-1/2  space-y-3 flex flex-col">
-                <CustomTextField
-                  label="heading"
-                  name="heading"
-                  value={dialogData.heading}
-                  onChange={(e) => {
-                    setDialogData((prev) => ({
-                      ...prev,
-                      heading: e.target.value,
-                    }));
-                  }}
-                />
-                <CustomTextField
-                  label={"Description"}
-                  name="description"
-                  value={dialogData.description}
-                  onChange={(e) => {
-                    setDialogData((prev) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }));
-                  }}
-                />
-                <CustomTextField
-                  label="Body"
-                  multiline
-                  name="body"
-                  value={dialogData.body}
-                  onChange={(e) => {
-                    setDialogData((prev) => ({
-                      ...prev,
-                      body: e.target.value,
-                    }));
-                  }}
-                />
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <img
-                  src={dialogData.image_link}
-                  height={300}
-                  width={300}
-                  alt=""
-                />
-              </div>
+            <div className="flex ">
+              <Table>
+                {dialogContentRows.map((row) => {
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        <Typography>{row.title}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography>{dialogData[row.key]}</Typography>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </Table>
             </div>
           }
           dialogAction={
-            <div className="flex  w-full justify-between">
-              <div className="space-x-3">
-                <Button
-                  color="success"
-                  onClick={() => handleBlogUpdate(dialogData)}
-                  variant="contained"
-                  endIcon={<Update />}
-                >
-                  Update
-                </Button>
-                <Button
-                  onClick={() => handleBlogDeleteRow(dialogData)}
-                  variant="contained"
-                  color="error"
-                  endIcon={<Delete />}
-                >
-                  Delete
-                </Button>
-              </div>
-              <div>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={handleManageBlogModalClose}
-                  endIcon={<Close />}
-                >
-                  Close
-                </Button>
-              </div>
-            </div>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleViewFeedbackModalClose}
+              endIcon={<Close />}
+            >
+              Close
+            </Button>
           }
-          handleClose={handleManageBlogModalClose}
+          handleClose={handleViewFeedbackModalClose}
         />
       )}
     </Box>

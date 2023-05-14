@@ -29,7 +29,6 @@ export default function Header() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-
   // Menu
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -54,6 +53,10 @@ export default function Header() {
       to: "/add_blog",
       tooltip: "Please Login first",
     },
+    {
+      title: "Contact us",
+      to: "/contact",
+    },
     // {
     //   title: "Resources",
     //   to: "/resources",
@@ -72,15 +75,13 @@ export default function Header() {
       })
     );
   }
-  function handleLogout(){
+  function handleLogout() {
     toggleAlert("success", messages.logout.success);
-    
-    sessionStorage.clear()
-    handleLogoutModalClose()
+
+    sessionStorage.clear();
+    handleLogoutModalClose();
 
     return navigate("/");
-
-
   }
   return (
     <>

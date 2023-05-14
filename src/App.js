@@ -22,6 +22,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { set_is_loading } from "./redux/features/helper";
 import { onValue } from "firebase/database";
 import { set_blogs_obj } from "./redux/features/blogs";
+import Admin from "./pages/Admin";
+import Contact from "./pages/Contact";
+import { setFeedbackObj } from "./redux/features/admin";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,21 @@ const router = createBrowserRouter([
     </>
   },
 
+  {
+    path: "/contact",
+    element:
+      <Layout>
+
+        <Contact />
+      </Layout>
+  },
+
+  {
+    path: "/admin",
+    element: <Admin />
+  },
+
+
 ]);
 
 
@@ -87,7 +105,7 @@ export default function App() {
   const helperState = useSelector((store) => store.helper);
 
   React.useEffect(() => {
-    
+
     readData("blog")
 
 
@@ -105,9 +123,24 @@ export default function App() {
     });
   }, [dispatch]);
 
+  const fetchFeedback = useCallback(() => {
+    dispatch(set_is_loading(true));
+    onValue(dbCollectionRef("contact"), (snapshot) => {
+      dispatch(set_is_loading(false));
+      if (snapshot.val()) {
+        const data = snapshot.val();
+        dispatch(setFeedbackObj(data));
+      }
+    });
+  }, [dispatch]);
+
   useEffect(() => {
     fetchBlogs();
   }, [fetchBlogs]);
+
+  useEffect(() => {
+    fetchFeedback()
+  }, [fetchFeedback]);
 
 
   return (

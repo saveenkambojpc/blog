@@ -1,5 +1,6 @@
 import { Autocomplete, TextField } from "@mui/material";
 import React from "react";
+import { theme } from "../../misc/theme";
 
 const CustomTextField = ({
   value,
@@ -15,7 +16,7 @@ const CustomTextField = ({
   return (
     <>
       <TextField
-      disabled={disabled}
+        disabled={disabled}
         id="outlined-basic"
         label={label}
         value={value}
@@ -26,6 +27,19 @@ const CustomTextField = ({
         required={required}
         name={name}
         multiline={multiline}
+        sx={{
+          "& .MuiFormLabel-root.MuiInputLabel-root.Mui-focused": {
+            color: theme.palette.colors.primary,
+          },
+          "& .MuiInputBase-root.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: theme.palette.colors.primary,
+            },
+          "& .MuiInputBase-root.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+            {
+              borderColor: theme.palette.colors.primary,
+            },
+        }}
       />
 
       {/* <Autocomplete
