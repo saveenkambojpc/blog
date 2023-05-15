@@ -98,7 +98,7 @@ export default function Header() {
             fontSize={24}
             fontWeight={600}
           >
-            BLOG SAVEEN
+            BLOG WEBAPP
           </Typography>
           <ul className="md:flex  hidden space-x-10 text-xs">
             <li></li>

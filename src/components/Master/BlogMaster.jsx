@@ -425,8 +425,10 @@ export default function BlogMaster() {
               <div className="md:w-1/2 flex justify-center">
                 <img
                   src={dialogData.image_link}
-                  height={300}
-                  width={300}
+                  style={{
+                    height:300,
+                    width:300
+                  }}
                   alt=""
                 />
               </div>
