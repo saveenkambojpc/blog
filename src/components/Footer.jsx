@@ -1,5 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   class link {
@@ -10,69 +11,12 @@ const Footer = () => {
   }
   const footers = [
     {
-      heading: "Product",
+      heading: "Pages",
       sub: [
-        new link("Overview", ""),
-        new link("Feature", ""),
-        new link("Solution", ""),
-        new link("Tutorial", ""),
-        new link("Pricing", ""),
-        new link("Release", ""),
-      ],
-    },
-    {
-      heading: "Company",
-      sub: [
-        new link("About us", ""),
-        new link("Careers", ""),
-        new link("Press", ""),
-        new link("News", ""),
-        new link("Media kit", ""),
-        new link("Contact", ""),
-      ],
-    },
-    {
-      heading: "Resources",
-      sub: [
+        new link("Home", ""),
         new link("Blog", ""),
-        new link("Newsletter", ""),
-        new link("Events", ""),
-        new link("Help centre", ""),
-        new link("Tutorials", ""),
-        new link("Support", ""),
-      ],
-    },
-    {
-      heading: "Use Cases",
-      sub: [
-        new link("Startups", ""),
-        new link("Enterprise", ""),
-        new link("Government", ""),
-        new link("Help Saas", ""),
-        new link("Marketplaces", ""),
-        new link("Ecommerce", ""),
-      ],
-    },
-    {
-      heading: "Social",
-      sub: [
-        new link("Twitter", ""),
-        new link("LinkedIn", ""),
-        new link("Facebook", ""),
-        new link("Github", ""),
-        new link("AngelList", ""),
-        new link("Dribble", ""),
-      ],
-    },
-    {
-      heading: "Legal",
-      sub: [
-        new link("Terms", ""),
-        new link("Privacy", ""),
-        new link("Cookies", ""),
-        new link("Licenses", ""),
-        new link("Settings", ""),
-        new link("Contact", ""),
+        new link("Add Blog", ""),
+        new link("Contact Us", ""),
       ],
     },
   ];
@@ -87,18 +31,24 @@ const Footer = () => {
         }}
       >
         <div className="flex flex-col items-center space-y-3">
-          <Typography variant="h4">
-            Let's get started on something great
-          </Typography>
+          <Typography variant="h4">Publish your passions, your way</Typography>
           <Typography variant="body1">
-            Join over 4,000+ startups already growing with United
+            Create a unique and beautiful blog easily.
           </Typography>
-          <Button
-            variant="outlined"
-            style={{ color: "white", borderColor: "white", borderRadius: 100 }}
-          >
-            Start your 7-day free trail
-          </Button>
+          <Link to="/add_blog">
+            <Button
+              variant="outlined"
+              style={{
+                color: "white",
+                borderColor: "white",
+
+                borderRadius: 6,
+                backdropFilter: "blur",
+              }}
+            >
+              Create your Blog
+            </Button>
+          </Link>
         </div>
 
         <div className=" md:mt-12 mt-6 md:flex md:justify-between ">

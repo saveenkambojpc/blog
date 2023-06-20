@@ -29,6 +29,8 @@ const BlogPage = () => {
   console.log("id is ", blog_id, blogsState.blogs_obj[blog_id]);
   const helperState = useSelector((store) => store.helper);
 
+  
+
   // const { heading, description, body, image_link, comments } =
   //   blogsState.blogs_obj[blog_id];
   // window.scrollTo(0, 0);
@@ -55,21 +57,23 @@ const BlogPage = () => {
   }
   return (
     <div className="my-6">
-      <div className="md:flex pb-3">
-        <div className="w-1/2">
-          <Typography variant="h2">
+      <div className="md:flex pb-3 mt-6 pt-6">
+        <div className="w-full">
+          <Typography variant="h3">
             {blogsState.blogs_obj[blog_id]?.heading}
           </Typography>
-          <Typography variant="h4">
-            {blogsState.blogs_obj[blog_id]?.description}
-          </Typography>
-        </div>
-        <div className="md:w-1/2 m-auto">
-          <img src={blogsState.blogs_obj[blog_id]?.image_link} />
+          <div className="my-3">
+            <Typography variant="h5" className="">
+              {blogsState.blogs_obj[blog_id]?.description}
+            </Typography>
+          </div>
         </div>
       </div>
+      <div className="w-full my-3 flex justify-center m-auto">
+        <img src={blogsState.blogs_obj[blog_id]?.image_link} className="h-80" />
+      </div>
 
-      <div className="">
+      <div className="md:mt-6 mt-3">
         <Typography variant="body">
           {blogsState.blogs_obj[blog_id]?.body}
         </Typography>
