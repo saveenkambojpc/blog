@@ -51,7 +51,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        <div className=" md:mt-12 mt-6 md:flex md:justify-between ">
+        {/* <div className=" md:mt-12 mt-6 md:flex md:justify-between ">
           {footers.map((item) => {
             return (
               <div
@@ -73,8 +73,14 @@ const Footer = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
+
       </div>
+        <div className="text-center bg-[#231816] text-white p-3">
+          <Typography>
+            Copyright &#169; 2023 BLOG WEBAPP. All right reserved
+          </Typography>
+        </div>
     </div>
   );
 };
