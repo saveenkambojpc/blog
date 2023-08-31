@@ -100,6 +100,16 @@ export default function Contact() {
           Submit
         </Button>
       </form>
+
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3526.5339846560237!2d78.0710776742942!3d27.885582276080843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3974a5a1dc848c31%3A0x4ff30819e6ee2940!2sBLOG%20WEBSITE!5e0!3m2!1sen!2sin!4v1693465160487!5m2!1sen!2sin"
+        // width="600"
+        // style="border:0;"
+        height="360"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
     </div>
   );
 }
